@@ -4,15 +4,16 @@
  * @param {...string} fields - the properties paths to pick
  * @returns {object} - returns the new object
  */
+
 export const pick = (obj, ...fields) => {
   const entries = Object.entries(obj);
-  let res = {};
-  entries.forEach((val) => {
+  const res = entries.reduce((acc, val) => {
     if (fields.includes(val[0])) {
-      let key = val[0];
-      let value = val[1];
-      res = { ...res, [key]: value };
+      const key = val[0];
+      const value = val[1];
+      acc = { ...acc, [key]: value };
     }
-  });
+    return acc;
+  }, {});
   return res;
 };

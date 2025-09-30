@@ -12,7 +12,11 @@ export function sortStrings(arr = [], param = "asc") {
     })
   );
   if (param === "desc") {
-    return sortedArray.reverse();
+    return copyArr.sort((a, b) =>
+      b.localeCompare(a[("ru", "en")], {
+        caseFirst: "upper",
+      })
+    );
   } else {
     return sortedArray;
   }
