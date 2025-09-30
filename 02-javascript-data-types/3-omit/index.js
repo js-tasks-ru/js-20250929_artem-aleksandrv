@@ -6,8 +6,7 @@
  */
 
 export const omit = (obj, ...fields) => {
-  const entries = Object.entries(obj);
-  const res = entries.reduce((acc, val) => {
+  const res = Object.entries(obj).reduce((acc, val) => {
     if (!fields.includes(val[0])) {
       const key = val[0];
       const value = val[1];
