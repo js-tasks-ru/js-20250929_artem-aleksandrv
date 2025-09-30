@@ -13,7 +13,7 @@ export function sortStrings(arr = [], param = "asc") {
   );
   if (param === "desc") {
     return copyArr.sort((a, b) =>
-      b.localeCompare(a[("ru", "en")], {
+      b.localeCompare(a[("en", "ru")], {
         caseFirst: "upper",
       })
     );
