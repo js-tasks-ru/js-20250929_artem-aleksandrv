@@ -8,11 +8,7 @@ export function createGetter(path) {
   return function (object) {
     let result = object;
     for (let key of mappedPath) {
-      if (
-        !result.hasOwnProperty(key) ||
-        result === undefined ||
-        result === null
-      ) {
+      if (!result?.hasOwnProperty(key)) {
         return undefined;
       }
       result = result[key];
