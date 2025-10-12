@@ -72,6 +72,6 @@ export default class ColumnChart {
 
   update(newData) {
     this.data = newData;
-    this.createElement();
+    this.element = this.createElement();
   }
 }
