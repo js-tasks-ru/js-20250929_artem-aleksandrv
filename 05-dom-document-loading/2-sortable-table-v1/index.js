@@ -101,12 +101,11 @@ export default class SortableTable {
     const {sortable, sortType} = sortParams;
     if (!sortable) {
       return;
+    }
+    if (sortType === 'string') {
+      this.sortStringData(this.data, field, order);
     } else {
-      if (sortType === 'string') {
-        this.sortStringData(this.data, field, order);
-      } else {
-        this.sortNumbersData(this.data, field, order);
-      }
+      this.sortNumbersData(this.data, field, order);
     }
 
 
