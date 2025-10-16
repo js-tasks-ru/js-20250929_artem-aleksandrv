@@ -68,8 +68,13 @@ export default class SortableTable {
     element.innerHTML = this.createTemplate();
     return element;
   }
-  destroy() {
+
+  remove() {
     this.element.remove();
+  }
+
+  destroy() {
+    this.remove();
   }
 
   sortStringData (data = [], field, order = 'asc') {
