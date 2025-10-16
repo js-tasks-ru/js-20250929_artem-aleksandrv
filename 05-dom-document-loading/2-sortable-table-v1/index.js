@@ -71,31 +71,69 @@ export default class SortableTable {
   destroy() {
     this.element.remove();
   }
-  sort(field, order = 'asc') {
-    const type = this.data[0][field];
-    if (typeof type === 'string') {
-      if (order === "desc") {
-        this.data.sort((a, b) =>
-          (b[field]).localeCompare(a[field], ["ru", "en"], {
-            caseFirst: "upper",
-          })
-        );
-      } else {
-        this.data.sort((a, b) =>
-          (a[field]).localeCompare(b[field], ["ru", "en"], {
-            caseFirst: "upper",
-          })
-        );
-      }
+  // sort(field, order = 'asc') {
+  //   const type = this.data[0][field];
+  //   if (typeof type === 'string') {
+  //     if (order === "desc") {
+  //       this.data.sort((a, b) =>
+  //         (b[field]).localeCompare(a[field], ["ru", "en"], {
+  //           caseFirst: "upper",
+  //         })
+  //       );
+  //     } else {
+  //       this.data.sort((a, b) =>
+  //         (a[field]).localeCompare(b[field], ["ru", "en"], {
+  //           caseFirst: "upper",
+  //         })
+  //       );
+  //     }
+  //   } else {
+  //     if (order === 'desc') {
+  //       this.data.sort((a, b) => b[field] - a[field]);
+  //     } else {
+  //       this.data.sort((a, b) => a[field] - b[field]);
+  //     }
+  //   }
+  //   this.subElements.body.innerHTML = this.createTableBodyTemplate();
+  // }
+
+  sortStringData (data = [], field, order = 'asc') {
+    if (order === "desc") {
+      data.sort((a, b) =>
+        (b[field]).localeCompare(a[field], ["ru", "en"], {
+          caseFirst: "upper",
+        })
+      );
     } else {
-      if (order === 'desc') {
-        this.data.sort((a, b) => b[field] - a[field]);
+      data.sort((a, b) =>
+        (a[field]).localeCompare(b[field], ["ru", "en"], {
+          caseFirst: "upper",
+        })
+      );
+    }
+  }
+  sortNumbersData (data = [], field, order = 'asc') {
+    if (order === 'desc') {
+      this.data.sort((a, b) => b[field] - a[field]);
+    } else {
+      this.data.sort((a, b) => a[field] - b[field]);
+    }
+  }
+  sort(field, order = 'asc') {
+    const sortParams = this.headerConfig.find((el) => el.id === field);
+    const {sortable, sortType} = sortParams;
+    if (!sortable) {
+      return;
+    } else {
+      if (sortType === 'string') {
+        this.sortStringData(this.data, field, order);
       } else {
-        this.data.sort((a, b) => a[field] - b[field]);
+        this.sortNumbersData(this.data, field, order);
       }
     }
+
+
     this.subElements.body.innerHTML = this.createTableBodyTemplate();
-    this.subElements = this.getSubElements();
   }
 }
 
