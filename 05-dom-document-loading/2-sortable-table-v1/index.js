@@ -71,31 +71,6 @@ export default class SortableTable {
   destroy() {
     this.element.remove();
   }
-  // sort(field, order = 'asc') {
-  //   const type = this.data[0][field];
-  //   if (typeof type === 'string') {
-  //     if (order === "desc") {
-  //       this.data.sort((a, b) =>
-  //         (b[field]).localeCompare(a[field], ["ru", "en"], {
-  //           caseFirst: "upper",
-  //         })
-  //       );
-  //     } else {
-  //       this.data.sort((a, b) =>
-  //         (a[field]).localeCompare(b[field], ["ru", "en"], {
-  //           caseFirst: "upper",
-  //         })
-  //       );
-  //     }
-  //   } else {
-  //     if (order === 'desc') {
-  //       this.data.sort((a, b) => b[field] - a[field]);
-  //     } else {
-  //       this.data.sort((a, b) => a[field] - b[field]);
-  //     }
-  //   }
-  //   this.subElements.body.innerHTML = this.createTableBodyTemplate();
-  // }
 
   sortStringData (data = [], field, order = 'asc') {
     if (order === "desc") {
@@ -112,6 +87,7 @@ export default class SortableTable {
       );
     }
   }
+
   sortNumbersData (data = [], field, order = 'asc') {
     if (order === 'desc') {
       this.data.sort((a, b) => b[field] - a[field]);
@@ -119,6 +95,7 @@ export default class SortableTable {
       this.data.sort((a, b) => a[field] - b[field]);
     }
   }
+
   sort(field, order = 'asc') {
     const sortParams = this.headerConfig.find((el) => el.id === field);
     const {sortable, sortType} = sortParams;
