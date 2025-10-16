@@ -28,17 +28,13 @@ export default class NotificationMessage {
     return element;
   }
 
-  show(element) {
+  show(element = document.body) {
     if (NotificationMessage.lastShownComponent) {
       NotificationMessage.lastShownComponent.hide();
     }
     NotificationMessage.lastShownComponent = this;
     this.element = this.createElement();
-    if (element) {
-      element.appendChild(this.element);
-    } else {
-      document.body.append(this.element);
-    }
+    element.append(this.element);
     this.timerId = setTimeout(() => {
       this.remove();
     }, this.duration);
