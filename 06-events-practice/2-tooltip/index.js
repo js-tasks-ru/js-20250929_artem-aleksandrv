@@ -13,17 +13,16 @@ class Tooltip {
     this.createListeners();
   }
 
-  createTooltipTemplate (text) {
-    if (text) {
-      return `
-    <div class="tooltip">${text}</div>
-    `;
-    }
+  createTooltipElement(text) {
+    const element = document.createElement('div');
+    element.className = 'tooltip';
+    element.textContent = text;
+    return element;
   }
 
   render (text) {
-    document.body.insertAdjacentHTML('beforeend', this.createTooltipTemplate(text));
-    this.element = document.body.lastElementChild;
+    this.element = this.createTooltipElement(text);
+    document.body.appendChild(this.element);
   }
 
   onDocumentPointerOver (e) {
@@ -49,13 +48,13 @@ class Tooltip {
   createListeners () {
     document.addEventListener('pointerover', (e) => this.onDocumentPointerOver(e));
     document.addEventListener('pointerout', (e) => this.removeTooltip(e));
-    document.addEventListener('mousemove', (e) => this.changeTooltipPosition(e));
+    document.addEventListener('pointermove', (e) => this.changeTooltipPosition(e));
   }
 
   removeListeneres () {
     document.removeEventListener('pointerover', (e) => this.removeTooltip(e));
     document.removeEventListener('pointerout', (e) => this.removeTooltip(e));
-    document.removeEventListener('mousemove', (e) => this.changeTooltipPosition(e));
+    document.removeEventListener('pointermove', (e) => this.changeTooltipPosition(e));
   }
 
   remove () {
