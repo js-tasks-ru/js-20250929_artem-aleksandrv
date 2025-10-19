@@ -4,8 +4,7 @@ export default class SortableTableV2 extends SortableTableV1 {
 
   constructor(headerConfig, options) {
     const {data = [], sorted = {}, isSortLocally = true} = options;
-    super(headerConfig);
-    this.data = data;
+    super(headerConfig, data);
     this.sorted = sorted;
     this.createListeners();
     this.isSortLocally = isSortLocally;
