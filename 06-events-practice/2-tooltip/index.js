@@ -25,20 +25,20 @@ class Tooltip {
     document.body.appendChild(this.element);
   }
 
-  onDocumentPointerOver (e) {
+  onDocumentPointerOver = (e) => {
     const data = e.target.dataset.tooltip;
     if (data) {
       this.render(data);
     }
   }
 
-  removeTooltip (e) {
+  removeTooltip = (e) => {
     if (e.target.dataset.tooltip) {
       this.remove();
     }
   }
 
-  changeTooltipPosition (e) {
+  changeTooltipPosition = (e) => {
     if (e.target.dataset.tooltip) {
       this.element.style.left = `${e.clientX + 15}px`;
       this.element.style.top = `${e.clientY + 15}px`;
@@ -46,15 +46,15 @@ class Tooltip {
   }
 
   createListeners () {
-    document.addEventListener('pointerover', (e) => this.onDocumentPointerOver(e));
-    document.addEventListener('pointerout', (e) => this.removeTooltip(e));
-    document.addEventListener('pointermove', (e) => this.changeTooltipPosition(e));
+    document.addEventListener('pointerover', this.onDocumentPointerOver);
+    document.addEventListener('pointerout', this.removeTooltip);
+    document.addEventListener('pointermove', this.changeTooltipPosition);
   }
 
   removeListeneres () {
-    document.removeEventListener('pointerover', (e) => this.removeTooltip(e));
-    document.removeEventListener('pointerout', (e) => this.removeTooltip(e));
-    document.removeEventListener('pointermove', (e) => this.changeTooltipPosition(e));
+    document.removeEventListener('pointerover', this.removeTooltip);
+    document.removeEventListener('pointerout', this.removeTooltip);
+    document.removeEventListener('pointermove', this.changeTooltipPosition);
   }
 
   remove () {
