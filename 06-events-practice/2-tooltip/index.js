@@ -52,7 +52,7 @@ class Tooltip {
   }
 
   removeListeneres () {
-    document.removeEventListener('pointerover', this.removeTooltip);
+    document.removeEventListener('pointerover', this.onDocumentPointerOver);
     document.removeEventListener('pointerout', this.removeTooltip);
     document.removeEventListener('pointermove', this.changeTooltipPosition);
   }
