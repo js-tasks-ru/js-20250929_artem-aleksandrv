@@ -1,5 +1,6 @@
 export default class ColumnChart {
   chartHeight = 50;
+  subElements = {};
   constructor(props = {}) {
     const {
       data = [],
@@ -14,6 +15,13 @@ export default class ColumnChart {
     this.link = link;
     this.formatHeading = formatHeading;
     this.element = this.createElement();
+    this.selectSubElements();
+  }
+
+  selectSubElements() {
+    this.element.querySelectorAll('[data-element]').forEach(element => {
+      this.subElements[element.dataset.element] = element;
+    });
   }
 
   getColumnProps(data) {
@@ -35,15 +43,19 @@ export default class ColumnChart {
     const list = this.getColumnProps(data).map(({percent, value}) => `<div style="--value: ${value}" data-tooltip=${percent}></div>`);
     return list.join('');
   }
+  createChartHeader() {
+    return `${this.formatHeading(this.value)}`;
+  }
+
   createTemplate() {
     return `
-    <div class="column-chart" style="--chart-height: ${this.chartHeight}">
+    <div class="column-chart column-chart_loading" style="--chart-height: ${this.chartHeight}">
       <div class="column-chart__title">
         ${this.label}
         ${this.checkForLinkProp()}
       </div>
       <div class="column-chart__container">
-        <div data-element="header" class="column-chart__header">${this.formatHeading(this.value)}</div>
+        <div data-element="header" class="column-chart__header">${this.createChartHeader()}</div>
         <div data-element="body" class="column-chart__chart">
           ${this.createChartTemplate(this.data)}
         </div>
@@ -56,8 +68,8 @@ export default class ColumnChart {
     const element = document.createElement("div");
     element.innerHTML = this.createTemplate();
     const firstElementChild = element.firstElementChild;
-    if (!this.data.length) {
-      firstElementChild.classList.add('column-chart_loading');
+    if (this.data.length) {
+      firstElementChild.classList.remove('column-chart_loading');
     }
     return firstElementChild;
   }
@@ -72,6 +84,8 @@ export default class ColumnChart {
 
   update(newData) {
     this.data = newData;
-    this.element.innerHTML = this.createElement();
+    this.element.classList.remove('column-chart_loading');
+    this.subElements.body.innerHTML = this.createChartTemplate(newData);
+    this.subElements.header.innerHTML = this.createChartHeader();
   }
 }
