@@ -113,7 +113,10 @@ export default class SortableTable {
       this.sortNumbersData(this.data, field, order);
     }
 
+    this.update();
 
+  }
+  update() {
     this.subElements.body.innerHTML = this.createTableBodyTemplate();
   }
 }
