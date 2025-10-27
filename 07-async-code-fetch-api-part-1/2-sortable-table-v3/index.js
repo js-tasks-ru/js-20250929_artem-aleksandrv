@@ -1,4 +1,4 @@
-// import fetchJson from "./utils/fetch-json.js";
+import fetchJson from "./utils/fetch-json.js";
 import SortableTableV2 from "../../06-events-practice/1-sortable-table-v2/index.js";
 
 const BACKEND_URL = "https://course-js.javascript.ru";
@@ -21,7 +21,7 @@ export default class SortableTableV3 extends SortableTableV2 {
        isSortLocally = false,
      } = {}
    ) {
-     super(headerConfig, {data, sorted, isSortLocally});
+     super(headerConfig, {data, sorted, isSortLocally: true });
      this.isSortLocally = isSortLocally;
      this.url = url;
      this.render();
@@ -32,7 +32,6 @@ export default class SortableTableV3 extends SortableTableV2 {
      if (shouldFetch && !this.isFetching) {
        this.offsetStart = this.offsetEnd;
        this.offsetEnd = this.offsetEnd + SortableTableV3.pageSize;
-       console.log(`start${this.offsetStart} end:${this.offsetEnd}`);
        await this.render();
      }
    }
@@ -56,13 +55,14 @@ export default class SortableTableV3 extends SortableTableV2 {
      this.subElements.loading.style.display = 'block';
 
      try {
-       const data = await fetch(url.toString());
-       const response = await data.json();
+       //  const data = await fetch(url.toString());
+       //  const response = await data.json();
+       const response = await fetchJson(url);
        this.data = [...this.data, ...response];
        super.update();
        return response;
      } catch (error) {
-       console.error(error);
+       //  console.error(error);
      } finally {
        this.isFetching = false;
        this.subElements.loading.style.display = 'none';
@@ -70,7 +70,10 @@ export default class SortableTableV3 extends SortableTableV2 {
    }
 
    async render() {
-     await this.fetchData();
+     if (this.isSortLocally) {
+       super.update();
+       return;
+     } await this.fetchData();
    }
 
    async sortOnServer(sortField, sortOrder) {

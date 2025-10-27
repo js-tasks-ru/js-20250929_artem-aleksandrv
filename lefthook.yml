@@ -1,7 +1,7 @@
-# pre-commit:
-#   jobs:
-#     - name: lint frontend
-#       run: npm run lint
+pre-commit:
+  jobs:
+    - name: lint frontend
+      run: npm run lint
 
-#     - name: test frontend
-#       run: npm run test
+    - name: test frontend
+      run: npm run test
