@@ -8,7 +8,7 @@ export default class SortableTableV3 extends SortableTableV2 {
    offsetStart = 0;
    offsetEnd = 30;
    isFetching=false;
-
+   isFirstLoading =true;
    constructor(
      headerConfig,
      {
@@ -60,7 +60,6 @@ export default class SortableTableV3 extends SortableTableV2 {
        const response = await fetchJson(url);
        this.data = [...this.data, ...response];
        super.update();
-       return response;
      } catch (error) {
        //  console.error(error);
      } finally {
@@ -70,10 +69,7 @@ export default class SortableTableV3 extends SortableTableV2 {
    }
 
    async render() {
-     if (this.isSortLocally) {
-       super.update();
-       return;
-     } await this.fetchData();
+     await this.fetchData();
    }
 
    async sortOnServer(sortField, sortOrder) {
