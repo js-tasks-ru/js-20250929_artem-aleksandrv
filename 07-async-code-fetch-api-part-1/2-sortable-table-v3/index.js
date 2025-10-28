@@ -8,7 +8,6 @@ export default class SortableTableV3 extends SortableTableV2 {
    offsetStart = 0;
    offsetEnd = 30;
    isFetching=false;
-   isFirstLoading =true;
    constructor(
      headerConfig,
      {
