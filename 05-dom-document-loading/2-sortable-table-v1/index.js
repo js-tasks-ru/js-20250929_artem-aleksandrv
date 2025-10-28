@@ -25,10 +25,10 @@ export default class SortableTable {
     )).join('');
   }
   createTableBodyCellTemplate(product, columnConfig) {
-    if (columnConfig['template']) {
-      return columnConfig['template'](product);
-    }
     const fieldId = columnConfig['id'];
+    if (columnConfig['template']) {
+      return columnConfig['template'](product[fieldId]);
+    }
     return `<div class="sortable-table__cell">${product[fieldId]}</div>`;
   }
   createTableBodyRowTemplate(product) {
@@ -95,9 +95,9 @@ export default class SortableTable {
 
   sortNumbersData (data = [], field, order = 'asc') {
     if (order === 'desc') {
-      this.data.sort((a, b) => b[field] - a[field]);
+      data.sort((a, b) => b[field] - a[field]);
     } else {
-      this.data.sort((a, b) => a[field] - b[field]);
+      data.sort((a, b) => a[field] - b[field]);
     }
   }
 
@@ -113,7 +113,10 @@ export default class SortableTable {
       this.sortNumbersData(this.data, field, order);
     }
 
+    this.update();
 
+  }
+  update() {
     this.subElements.body.innerHTML = this.createTableBodyTemplate();
   }
 }
