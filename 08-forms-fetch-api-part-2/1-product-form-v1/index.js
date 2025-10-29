@@ -153,6 +153,11 @@ export default class ProductForm {
        ${this.createImageContainerTemplate()}
        ${this.createCategoriesListTemplate()}
        ${this.createProductDetailsTemplate()}
+       <div class="form-buttons">
+        <button type="submit" name="save" class="button-primary-outline">
+          Сохранить товар
+        </button>
+      </div>
         </form>
       </div>
       `
@@ -209,7 +214,7 @@ export default class ProductForm {
   }
 
   createEventListeners() {
-    this.subElements.productForm.addEventListener('submit', this.handleSubmit);
+    this.subElements.productForm.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
   async handleSubmit (e) {
@@ -217,7 +222,7 @@ export default class ProductForm {
     await this.save();
   }
 
-  async save() {
+  async save () {
     const product = {
       id: this.productId,
       description: this.subElements.productDescription.value,
@@ -236,6 +241,7 @@ export default class ProductForm {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product)
       });
+      console.log(sendData);
       if (this.productId) {
         this.element.dispatchEvent(new CustomEvent('product-updated', {
           bubbles: true
