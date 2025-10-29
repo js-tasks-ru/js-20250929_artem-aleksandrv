@@ -226,17 +226,8 @@ export default class ProductForm {
 
     const productForm = document.forms.product;
     const formData = new FormData(productForm);
-    const product = {
-      id: this.productId,
-      description: formData.get('description'),
-      discount: formData.get('discount'),
-      price: formData.get('price'),
-      quantity: formData.get('quantity'),
-      status: formData.get('status'),
-      subcategory: formData.get('subcategory'),
-      title: formData.get('title'),
-      images: this.getImagesData()
-    };
+    formData.set('images', JSON.stringify(this.getImagesData()));
+    const product = Object.fromEntries(formData.entries());
 
     try {
       const sendData = await fetchJson(`${BACKEND_URL}/api/rest/products`, {
