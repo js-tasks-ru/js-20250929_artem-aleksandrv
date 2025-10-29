@@ -147,7 +147,7 @@ export default class ProductForm {
   createTemplate () {
     return (
       `<div class="product-form">
-        <form data-element="productForm" class="form-grid">
+        <form data-element="productForm" name="product" class="form-grid">
       ${this.createLabelTemplate()}
        ${this.createDescriptionTemplate()}
        ${this.createImageContainerTemplate()}
@@ -223,15 +223,18 @@ export default class ProductForm {
   }
 
   async save () {
+
+    const productForm = document.forms.product;
+    const formData = new FormData(productForm);
     const product = {
       id: this.productId,
-      description: this.subElements.productDescription.value,
-      discount: this.subElements.discount.value,
-      price: this.subElements.price.value,
-      quantity: this.subElements.quantity.value,
-      status: this.subElements.status.value,
-      subcategory: this.subElements.subcategory.value,
-      title: this.subElements.title.value,
+      description: formData.get('description'),
+      discount: formData.get('discount'),
+      price: formData.get('price'),
+      quantity: formData.get('quantity'),
+      status: formData.get('status'),
+      subcategory: formData.get('subcategory'),
+      title: formData.get('title'),
       images: this.getImagesData()
     };
 
@@ -241,7 +244,6 @@ export default class ProductForm {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product)
       });
-      console.log(sendData);
       if (this.productId) {
         this.element.dispatchEvent(new CustomEvent('product-updated', {
           bubbles: true
@@ -272,6 +274,7 @@ export default class ProductForm {
   }
 
   destroy() {
+    this.removeEventListener();
     this.remove();
   }
 
