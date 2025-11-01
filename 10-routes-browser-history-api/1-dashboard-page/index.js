@@ -124,7 +124,6 @@ export default class Page {
 
   handleOnDateSelect(event) {
     const { from, to } = event.detail;
-    console.log(from, to);
     this.updateComponents(from, to);
   }
 
