@@ -8,10 +8,6 @@ import ProductFormV1 from '../../08-forms-fetch-api-part-2/1-product-form-v1/ind
 
 export default class ProductForm extends ProductFormV1 {
   sortableList;
-  constructor (productId)
-  {
-    super(productId);
-  }
 
   setSortableList() {
     const { imageListContainer } = this.subElements;
