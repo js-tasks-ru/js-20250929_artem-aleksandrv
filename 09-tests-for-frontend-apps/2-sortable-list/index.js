@@ -2,9 +2,9 @@ export default class SortableList {
   constructor({items}) {
     this.items = items;
     this.element = this.createElement();
-    this.handleOnPointerDown = this.handleOnPointerDown.bind(this);
-    this.handleOnPointerMove = this.handleOnPointerMove.bind(this);
-    this.handleOnPointerUp = this.handleOnPointerUp.bind(this);
+    this.onPointerDown = this.onPointerDown.bind(this);
+    this.onPointerMove = this.onPointerMove.bind(this);
+    this.onPointerUp = this.onPointerUp.bind(this);
     this.render();
     this.createListeners();
   }
@@ -14,6 +14,7 @@ export default class SortableList {
     element.classList.add('sortable-list');
     return element;
   }
+
   render() {
     this.items.map(el => {
       el.classList.add('sortable-list__item');
@@ -22,24 +23,24 @@ export default class SortableList {
   }
 
   createListeners() {
-    this.element.addEventListener('pointerdown', this.handleOnPointerDown);
+    this.element.addEventListener('pointerdown', this.onPointerDown);
   }
 
-  handleOnPointerDown(event) {
+  onPointerDown(event) {
     const grabObjet = event.target.closest('[data-grab-handle]');
     if (grabObjet) {
       event.preventDefault();
       this.moveObject(grabObjet, event);
     }
 
-    const deleteObjet = event.target.closest('[data-delete-handle]');
-    if (deleteObjet) {
-      this.deleteObjet(deleteObjet);
+    const deleteObject = event.target.closest('[data-delete-handle]');
+    if (deleteObject) {
+      this.deleteObject(deleteObject);
     }
   }
 
-  moveObject(grabObjet, event) {
-    this.movingObject = grabObjet.closest('li');
+  moveObject(grabObject, event) {
+    this.movingObject = grabObject.closest('li');
     const coordinates = this.movingObject.getBoundingClientRect();
 
     this.space = document.createElement('li');
@@ -58,11 +59,11 @@ export default class SortableList {
     this.shiftX = event.clientX - coordinates.left;
     this.shiftY = event.clientY - coordinates.top;
 
-    document.addEventListener('pointermove', this.handleOnPointerMove);
-    document.addEventListener('pointerup', this.handleOnPointerUp);
+    document.addEventListener('pointermove', this.onPointerMove);
+    document.addEventListener('pointerup', this.onPointerUp);
   }
 
-  handleOnPointerMove(event) {
+  onPointerMove(event) {
     this.movingObject.style.left = `${event.clientX - this.shiftX}px`;
     this.movingObject.style.top = `${event.clientY - this.shiftY}px`;
 
@@ -90,26 +91,26 @@ export default class SortableList {
     }
   }
 
-  handleOnPointerUp() {
+  onPointerUp() {
     this.space.replaceWith(this.movingObject);
     this.movingObject.classList.remove('sortable-list__item_dragging');
     this.movingObject.removeAttribute('style');
     this.space.remove();
 
-    document.removeEventListener('pointermove', this.handleOnPointerMove);
-    document.removeEventListener('pointerup', this.handleOnPointerUp);
+    document.removeEventListener('pointermove', this.onPointerMove);
+    document.removeEventListener('pointerup', this.onPointerUp);
 
   }
 
-  deleteObjet(deleteObjet) {
-    deleteObjet.closest('li').remove();
+  deleteObject(deleteObject) {
+    deleteObject.closest('li').remove();
   }
 
   destroy() {
     this.remove();
-    this.element.removeEventListener('pointerdown', this.handleOnPointerDown);
-    document.removeEventListener('pointermove', this.handleOnPointerMove);
-    document.removeEventListener('pointerup', this.handleOnPointerUp);
+    this.element.removeEventListener('pointerdown', this.onPointerDown);
+    document.removeEventListener('pointermove', this.onPointerMove);
+    document.removeEventListener('pointerup', this.onPointerUp);
   }
 
   remove() {
