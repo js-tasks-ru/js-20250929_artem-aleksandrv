@@ -33,14 +33,14 @@ export default class SortableList {
       this.moveObject(grabObjet, event);
     }
 
-    const deleteObjet = event.target.closest('[data-delete-handle]');
-    if (deleteObjet) {
-      this.deleteObjet(deleteObjet);
+    const deleteObject = event.target.closest('[data-delete-handle]');
+    if (deleteObject) {
+      this.deleteObject(deleteObject);
     }
   }
 
-  moveObject(grabObjet, event) {
-    this.movingObject = grabObjet.closest('li');
+  moveObject(grabObject, event) {
+    this.movingObject = grabObject.closest('li');
     const coordinates = this.movingObject.getBoundingClientRect();
 
     this.space = document.createElement('li');
@@ -102,8 +102,8 @@ export default class SortableList {
 
   }
 
-  deleteObjet(deleteObjet) {
-    deleteObjet.closest('li').remove();
+  deleteObject(deleteObject) {
+    deleteObject.closest('li').remove();
   }
 
   destroy() {
