@@ -66,7 +66,7 @@ export default class DoubleSlider {
     const toElementValue = this.element.querySelector('[data-element="to"]');
 
     if (this.activeThumb === "thumbLeft") {
-      this.from = this.processPointerMove(event);
+      this.from = Math.min(this.to, this.processPointerMove(event));
       const value = this.toPercent("left-thubm");
       leftSlider.style.left = value + "%";
       sliderProgress.style.left = value + "%";
@@ -74,7 +74,7 @@ export default class DoubleSlider {
     }
 
     if (this.activeThumb === "thumbRight") {
-      this.to = this.processPointerMove(event);
+      this.to = Math.max(this.from, this.processPointerMove(event));
       const value = this.toPercent("right-thubm");
       toElementValue.textContent = this.formatValue(this.to);
       rightSlider.style.right = value + "%";
