@@ -1,16 +1,26 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
+
 <head>
   <title>DoubleSlider</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="root"></div>
 
   <script type="module">
     import DoubleSlider from './index.js';
 
-    const slider = new DoubleSlider();
+    const slider = new DoubleSlider({
+      min: 300,
+      max: 800,
+      selected: {
+        from: 400,
+        to: 600
+      },
+      formatValue: value => '$' + value,
+    });
 
     root.append(slider.element);
   </script>
